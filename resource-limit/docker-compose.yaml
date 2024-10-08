@@ -1,0 +1,20 @@
+# to make a sets of container
+services:
+  # container one
+  nginx-example:
+    # container name
+    container_name: nginx-example
+    # image container based on
+    image: nginx:latest
+    ports:
+      - protocol: tcp
+        published: 8080
+        target: 80
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.25"
+          memory: 50m
+        limits:
+          cpus: "0.5"
+          memory: 100m
