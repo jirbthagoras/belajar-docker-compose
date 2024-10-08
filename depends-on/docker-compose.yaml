@@ -1,0 +1,34 @@
+services:
+  mongodb-example:
+    image: mongo:latest
+    container_name: mongodb-example
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: jirb
+      MONGO_INITDB_ROOT_PASSWORD: jirb
+      MONGO_INITDB_DATABASE_ADMIN: admin
+    networks:
+      - network_example
+
+  mongodb-express-example:
+    image: mongo-express:latest
+    container_name: mongodb-express-example 
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: browser_user
+      ME_CONFIG_BASICAUTH_PASSWORD: browser_pass
+      ME_CONFIG_MONGODB_ADMINUSERNAME: jirb
+      ME_CONFIG_MONGODB_ADMINPASSWORD: jirb
+      ME_CONFIG_MONGODB_URL: "mongodb://jirb:jirb@mongodb:27017/"
+      ME_CONFIG_MONGODB_SERVER: mongodb-example
+    networks:
+      - network_example
+    depends_on:
+      - mongodb-example
+      
+networks:
+  network_example:
+    name: network_example
+    driver: bridge
